@@ -1,0 +1,66 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AZMet Daily Weather",
+    "version": "1.0.0",
+    "description": "Read-only access to daily weather observations from the University of Arizona's AZMet weather network (api.azmet.arizona.edu). Public API; no authentication. Data available from 2021-01-01 to yesterday."
+  },
+  "servers": [
+    {
+      "url": "https://api.azmet.arizona.edu"
+    }
+  ],
+  "paths": {
+    "/v1/observations/daily/{stationID}/{startDate}/{timeInterval}": {
+      "get": {
+        "operationId": "getDailyObservations",
+        "summary": "Get daily weather observations for one AZMet station",
+        "description": "Returns one record per day for an AZMet station, starting at startDate and covering the number of extra days in timeInterval. Use it to get daily air temperature, rain, reference evapotranspiration, heat units and cotton heat stress. Example: station az06, startDate 2026-07-27T00:00, timeInterval P6DT0H returns the 7 days Jul 27 to Aug 2, 2026. Keep each request to 31 days or fewer. In the response, the 'data' list holds the daily records. Useful fields in each record: datetime (date), meta_station_id, meta_station_name, temp_air_maxF and temp_air_minF (daily max and min air temperature, F), precip_total_in (rain, inches), eto_pen_mon_in (reference evapotranspiration, inches, Penman-Monteith), heat_units_9455F (daily heat units with 94 F upper and 55 F lower thresholds), heatstress_cotton_meanF (estimated cotton canopy temperature, F), meta_needs_review (1 means the record is flagged for quality review). Missing values can appear as -999 or -9999 and must be ignored.",
+        "x-amzn-operation-type": "read",
+        "parameters": [
+          {
+            "name": "stationID",
+            "in": "path",
+            "required": true,
+            "description": "AZMet station ID. Pinal County: az06 (Maricopa), az05 (Coolidge). Yuma County: az02 (Yuma Valley), az14 (Yuma North Gila), az36 (Yuma South). Use * for all stations, which returns much more data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "path",
+            "required": true,
+            "description": "First day to return, in the form YYYY-MM-DDT00:00 with no time zone, for example 2026-07-27T00:00. Use * for yesterday.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeInterval",
+            "in": "path",
+            "required": true,
+            "description": "How many days to return after startDate, as an ISO 8601 duration P{days}DT0H. P0DT0H returns only startDate; P6DT0H returns 7 days (one week). Use * for one day.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily observations. Top-level fields: l (station ID), n (station name), s (start date), i (interval), and data (the list of daily records described in the operation description).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "AZMet daily observation response",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
