@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "NWS Pinal Forecast",
+    "version": "1.0.0",
+    "description": "Read-only 7-day forecasts from the US National Weather Service (api.weather.gov) for two Pinal County, Arizona cotton areas. Public API; no authentication."
+  },
+  "servers": [
+    {
+      "url": "https://api.weather.gov"
+    }
+  ],
+  "paths": {
+    "/gridpoints/PSR/158,41/forecast": {
+      "get": {
+        "operationId": "getMaricopaForecast",
+        "summary": "7-day forecast for Maricopa, Arizona",
+        "description": "Returns the current National Weather Service 7-day forecast for Maricopa, Arizona (Phoenix office PSR, grid 158,41). The forecast is in properties.periods: 14 half-day periods, alternating day and night. In each period: name (for example Saturday or Saturday Night), isDaytime (true for day periods), temperature (degrees F; the high for day periods, the low for night periods), probabilityOfPrecipitation.value (percent chance of rain), and shortForecast (for example Sunny). properties.updateTime is when the forecast was issued, in UTC.",
+        "x-amzn-operation-type": "read",
+        "responses": {
+          "200": {
+            "description": "GeoJSON forecast. The useful fields are properties.updateTime and properties.periods, described in the operation description.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "NWS forecast response",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gridpoints/PSR/177,35/forecast": {
+      "get": {
+        "operationId": "getCoolidgeForecast",
+        "summary": "7-day forecast for Coolidge, Arizona",
+        "description": "Returns the current National Weather Service 7-day forecast for Coolidge, Arizona (Phoenix office PSR, grid 177,35). The forecast is in properties.periods: 14 half-day periods, alternating day and night. In each period: name (for example Saturday or Saturday Night), isDaytime (true for day periods), temperature (degrees F; the high for day periods, the low for night periods), probabilityOfPrecipitation.value (percent chance of rain), and shortForecast (for example Sunny). properties.updateTime is when the forecast was issued, in UTC.",
+        "x-amzn-operation-type": "read",
+        "responses": {
+          "200": {
+            "description": "GeoJSON forecast. The useful fields are properties.updateTime and properties.periods, described in the operation description.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "NWS forecast response",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
