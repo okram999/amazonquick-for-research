@@ -71,10 +71,12 @@ Work through the days in order — each one builds on the last:
 
 ## Data and sources
 
-All weather data comes from the Arizona Meteorological Network (AZMet),
+All weather data are derived from the Arizona Meteorological Network (AZMet),
 `api.azmet.arizona.edu`, which serves daily observations from January 1, 2021.
 The literature and its licensing are listed in
 [`tuesday-literature/SOURCES.md`](tuesday-literature/SOURCES.md).
+
+This is a learning/workshop project, not affiliated with or endorsed by AZMet
 
 ## A note on the method
 
